@@ -12,4 +12,6 @@ public sealed interface Result<S, F> permits Success, Failure {
     }
 
     <T> Result<T, F> map(Function<? super S,? extends T> mapper);
+
+    <T> Result<S, T> mapFailure(Function<? super F, ? extends T> mapper);
 }

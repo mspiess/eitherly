@@ -7,7 +7,7 @@ import static org.assertj.core.api.Fail.fail;
 
 public class ResultTest {
     @Test
-    void successMatchesSuccess() {
+    void success_matchesSuccess() {
         String successValue = "some value";
         Result<String, Integer> result = Result.success(successValue);
 
@@ -18,7 +18,7 @@ public class ResultTest {
     }
 
     @Test
-    void failureMatchesFailure() {
+    void failure_matchesFailure() {
         String expectedError = "some failure";
         Result<Integer, String> result = Result.failure(expectedError);
 
@@ -29,7 +29,7 @@ public class ResultTest {
     }
 
     @Test
-    void mapSuccess() {
+    void map_success() {
         Result<String, Integer> success = Result.success("some success");
 
         var result = success.map(String::toUpperCase);
@@ -40,7 +40,7 @@ public class ResultTest {
     }
 
     @Test
-    void mapFailure() {
+    void map_failure() {
         Result<Integer, String> failure = Result.failure("some failure");
 
         var result = failure.map(value -> {
@@ -51,6 +51,31 @@ public class ResultTest {
         assertThat(result).isExactlyInstanceOf(Failure.class);
         Failure<Integer, String> mappedFailure = (Failure<Integer, String>) result;
         assertThat(mappedFailure.failure()).isEqualTo("some failure");
+    }
+
+    @Test
+    void mapFailure_failure() {
+        Result<Integer, String> failure = Result.failure("some failure");
+
+        var result = failure.mapFailure(String::toUpperCase);
+
+        assertThat(result).isExactlyInstanceOf(Failure.class);
+        Failure<Integer, String> mappedFailure = (Failure<Integer, String>) result;
+        assertThat(mappedFailure.failure()).isEqualTo("SOME FAILURE");
+    }
+
+    @Test
+    void mapFailure_success() {
+        Result<String, Integer> success = Result.success("some success");
+
+        var result = success.mapFailure(value -> {
+            fail("Mapper function called on a failure");
+            return value;
+        });
+
+        assertThat(result).isExactlyInstanceOf(Success.class);
+        Success<String, Integer> mappedFailure = (Success<String, Integer>) result;
+        assertThat(mappedFailure.value()).isEqualTo("some success");
     }
 
 }

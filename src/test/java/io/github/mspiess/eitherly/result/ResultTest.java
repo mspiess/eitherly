@@ -78,4 +78,12 @@ public class ResultTest {
         assertThat(mappedFailure.value()).isEqualTo("some success");
     }
 
+    @Test
+    void toOptional() {
+        Result<String, Integer> success = Result.success("Some success");
+        Result<Integer, String> failure = Result.failure("Some failure");
+
+        assertThat(success.toOptional()).hasValue("Some success");
+        assertThat(failure.toOptional()).isEmpty();
+    }
 }

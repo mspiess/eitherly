@@ -1,6 +1,7 @@
 package io.github.mspiess.eitherly.result;
 
 import java.util.Objects;
+import java.util.Optional;
 import java.util.function.Function;
 
 public record Failure<S, F>(F failure) implements Result<S, F> {
@@ -15,5 +16,10 @@ public record Failure<S, F>(F failure) implements Result<S, F> {
     public <T> Result<S, T> mapFailure(Function<? super F, ? extends T> mapper) {
         Objects.requireNonNull(mapper);
         return new Failure<>(mapper.apply(this.failure()));
+    }
+
+    @Override
+    public Optional<S> toOptional() {
+        return Optional.empty();
     }
 }

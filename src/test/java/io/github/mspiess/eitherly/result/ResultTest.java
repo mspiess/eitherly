@@ -91,8 +91,10 @@ public class ResultTest {
     void toOptional() {
         Result<String, Integer> success = Result.success("Some success");
         Result<Integer, String> failure = Result.failure("Some failure");
+        Result<String, Integer> nullSuccess = Result.success(null);
 
         assertThat(success.toOptional()).hasValue("Some success");
         assertThat(failure.toOptional()).isEmpty();
+        assertThatThrownBy(nullSuccess::toOptional).isExactlyInstanceOf(NullPointerException.class);
     }
 }

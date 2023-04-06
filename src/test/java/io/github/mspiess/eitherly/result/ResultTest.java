@@ -3,6 +3,7 @@ package io.github.mspiess.eitherly.result;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.Fail.fail;
 
 public class ResultTest {
@@ -33,6 +34,8 @@ public class ResultTest {
         Result<String, Integer> success = Result.success("some success");
 
         var result = success.map(String::toUpperCase);
+        assertThatThrownBy(() -> success.map(null))
+                .isExactlyInstanceOf(NullPointerException.class);
 
         assertThat(result).isExactlyInstanceOf(Success.class);
         Success<String, Integer> mappedSuccess = (Success<String, Integer>) result;
@@ -47,6 +50,8 @@ public class ResultTest {
             fail("Mapper function called on a failure");
             return value;
         });
+        assertThatThrownBy(() -> failure.map(null))
+                .isExactlyInstanceOf(NullPointerException.class);
 
         assertThat(result).isExactlyInstanceOf(Failure.class);
         Failure<Integer, String> mappedFailure = (Failure<Integer, String>) result;
@@ -58,6 +63,8 @@ public class ResultTest {
         Result<Integer, String> failure = Result.failure("some failure");
 
         var result = failure.mapFailure(String::toUpperCase);
+        assertThatThrownBy(() -> failure.mapFailure(null))
+                .isExactlyInstanceOf(NullPointerException.class);
 
         assertThat(result).isExactlyInstanceOf(Failure.class);
         Failure<Integer, String> mappedFailure = (Failure<Integer, String>) result;
@@ -72,6 +79,8 @@ public class ResultTest {
             fail("Mapper function called on a failure");
             return value;
         });
+        assertThatThrownBy(() -> success.mapFailure(null))
+                .isExactlyInstanceOf(NullPointerException.class);
 
         assertThat(result).isExactlyInstanceOf(Success.class);
         Success<String, Integer> mappedFailure = (Success<String, Integer>) result;

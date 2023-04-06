@@ -13,6 +13,7 @@ public record Success<S, E>(S value) implements Result<S, E> {
 
     @Override
     public <T> Result<S, T> mapFailure(Function<? super E, ? extends T> mapper) {
+        Objects.requireNonNull(mapper);
         // noinspection unchecked
         return (Result<S, T>) this;
     }

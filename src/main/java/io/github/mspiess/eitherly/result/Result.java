@@ -5,6 +5,7 @@ import java.util.function.Function;
 
 /**
  * A container object which may either contain success value or a failure value.
+ * Can be considered a specialization of {@link io.github.mspiess.eitherly.either.Either}.
  *
  * @param <S> Type of the success value
  * @param <F> Type of the failure value

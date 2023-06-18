@@ -64,7 +64,7 @@ public sealed interface Result<S, F> permits Success, Failure {
     <T> Result<S, T> mapFailure(Function<? super F, ? extends T> mapper);
 
     /**
-     * Returns an {@link Optional} describing the success value or this result,
+     * Returns an {@link Optional} describing the success value of this result,
      * or an empty {@code Optional} if the result is a failure.
      *
      * @return an {@code Optional} describing the success value of this result,

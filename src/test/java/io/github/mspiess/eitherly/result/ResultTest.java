@@ -6,7 +6,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.Fail.fail;
 
-public class ResultTest {
+class ResultTest {
     @Test
     void success_matchesSuccess() {
         String successValue = "some value";
